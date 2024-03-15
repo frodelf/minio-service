@@ -1,0 +1,15 @@
+server:
+  port: 47077
+spring:
+  application:
+    name: minio
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:47073/eureka
+minio:
+  accessKey: admin
+  secretKey: password
+  endpoint: http://localhost:4111
