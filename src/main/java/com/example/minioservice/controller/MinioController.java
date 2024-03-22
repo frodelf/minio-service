@@ -1,9 +1,10 @@
 package com.example.minioservice.controller;
-
-import com.example.minioservice.service.MinioService;
 import io.minio.errors.*;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,27 +13,38 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-@Log4j2
-@RestController
-@RequiredArgsConstructor
-@RequestMapping("/api/v1/minio")
-public class MinioController {
-    private final MinioService minioService;
-    @DeleteMapping("/delete/{image}")
-    public String deleteImage(@PathVariable String image) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        minioService.deleteImg(image);
-        return "deleted";
-    }
-    @PostMapping("/save")
-    public String save(@RequestParam MultipartFile image) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        return minioService.putMultipartFile(image);
-    }
-    @GetMapping("/get")
-    public String getUrl(@RequestParam String url) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        return minioService.getUrl(url);
-    }
-    @GetMapping("/get/list")
-    public List<String> getUrl(@RequestParam List<String> urls) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        return minioService.getUrl(urls);
-    }
+@Tag(name = "Minio controller", description = "Minio API")
+public interface MinioController {
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authorized"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Resource not found."),
+    })
+    @Operation(summary = "The request to delete image by name")
+    String deleteImage(@Parameter(description = "Image's name by which image will be deleted") @PathVariable String image) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException;
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authorized"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Resource not found."),
+    })
+    @Operation(summary = "The request to save image")
+    String save(@Parameter(description = "Image for saving") @RequestParam MultipartFile image) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException;
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authorized"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Resource not found."),
+    })
+    @Operation(summary = "The request to get url by image name")
+    String getUrl(@Parameter(description = "Url by which image will be found") @RequestParam String url) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException;
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authorized"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Resource not found."),
+    })
+    @Operation(summary = "The request to get list url by list image name")
+    List<String> getUrl(@Parameter(description = "Urls by which images will be found") @RequestParam List<String> urls) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException;
 }
