@@ -5,7 +5,7 @@ spring:
     name: minio
 eureka:
   instance:
-    hostname: eurekaserver
+    hostname: slj_househub_minio_dd
   client:
     service-url:
       defaultZone: http://eurekaserver:47073/eureka
