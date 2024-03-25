@@ -5,14 +5,14 @@ spring:
     name: minio
 eureka:
   instance:
-    hostname: localhost
+    hostname: eurekaserver
   client:
     service-url:
-      defaultZone: http://localhost:47073/eureka
+      defaultZone: http://eurekaserver:47073/eureka
 minio:
   accessKey: admin
   secretKey: password
-  endpoint: http://localhost:4101
+  endpoint: http://minio:9000
 security:
   jwt:
     access: 36000000
