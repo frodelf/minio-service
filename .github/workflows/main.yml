@@ -45,9 +45,9 @@ jobs:
           username: ${{ secrets.remote_server_username }}
           password: ${{ secrets.remote_server_ssh_key }}
           script: |
-            if docker ps -a --format '{{.Names}}' | grep -q '^slj_househub_flat_dd'; then
-              docker stop slj_househub_flat_dd || true
-              docker rm slj_househub_flat_dd || true
+            if docker ps -a --format '{{.Names}}' | grep -q '^slj_househub_minio_dd'; then
+              docker stop slj_minio_flat_dd || true
+              docker rm slj_minio_flat_dd || true
             fi
             docker pull ${{ secrets.secret_name_docker_hub_lower_case }}/spring-boot-for-beginners:latest
-            docker run -d -p 4408:47078 --name slj_househub_flat_dd --network slj_househub_network_dd ${{ secrets.secret_name_docker_hub_lower_case }}/spring-boot-for-beginners:latest
+            docker run -d -p 4407:47077 --name slj_househub_minio_dd --network slj_househub_network_dd ${{ secrets.secret_name_docker_hub_lower_case }}/spring-boot-for-beginners:latest
