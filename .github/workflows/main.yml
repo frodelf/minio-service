@@ -50,4 +50,4 @@ jobs:
               docker rm slj_househub_minio_dd || true
             fi
             docker pull ${{ secrets.secret_name_docker_hub_lower_case }}/spring-boot-for-beginners:latest
-            docker run -d -p 4407:47077 --name slj_househub_minio_dd --network slj_househub_network_dd ${{ secrets.secret_name_docker_hub_lower_case }}/spring-boot-for-beginners:latest
+            docker run -d -p 4407:47077 --name slj_househub_minio_dd --hostname minio-service --network slj_househub_network_dd ${{ secrets.secret_name_docker_hub_lower_case }}/spring-boot-for-beginners:latest
